@@ -1,8 +1,10 @@
 import React from "react";
+import Header from "../Header.jsx";
 
 export const UpdateRegister = () => {
   return (
     <div>
+       <Header/>
       <div>
         <form>
           <label for="nomecompleto"></label>

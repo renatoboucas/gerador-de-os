@@ -1,8 +1,10 @@
 import React from "react";
+import Header from "../Header.jsx";
 
 export const Register = () => {
   return (
     <div>
+      <Header/>
       <div>
         <form>
           <h1>Cadastro Cliente</h1>
