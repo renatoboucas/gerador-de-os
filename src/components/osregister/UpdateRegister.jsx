@@ -4,7 +4,7 @@ import Header from "../Header.jsx";
 export const UpdateRegister = () => {
   return (
     <div>
-       <Header/>
+      <Header />
       <div>
         <form>
           <label for="nomecompleto"></label>

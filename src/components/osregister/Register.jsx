@@ -4,7 +4,7 @@ import Header from "../Header.jsx";
 export const Register = () => {
   return (
     <div>
-      <Header/>
+      <Header />
       <div>
         <form>
           <h1>Cadastro Cliente</h1>
@@ -13,7 +13,7 @@ export const Register = () => {
           <label for="numero">Telefone:</label>
           <input type="number" id="numero" name="numero" placeholder="Telefone"></input>
           <label for="email">Email:</label>
-          <input type="text" id="email" name="email" placeholder="Email"/>
+          <input type="text" id="email" name="email" placeholder="Email" />
 
           <h1>Cadastro Aparelho</h1>
           <label for="nomeaparelho">Nome do Aparelho:</label>
