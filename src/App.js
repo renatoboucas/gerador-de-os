@@ -7,7 +7,7 @@ import { ConsultaConcluido } from "./components/consulta/ConsultaConcluido";
 function App() {
   return (
     <div className="App">
-      <ConsultaConcluido/>
+      <Register/>
     </div>
   );
 }
