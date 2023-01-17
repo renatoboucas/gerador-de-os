@@ -1,6 +1,6 @@
 import React from "react";
-import Header from "../Header";
 import '../style.css'
+import { Link } from "react-router-dom";
 
 export const Box2 = (props) => {
   return (
@@ -27,8 +27,8 @@ export const Box2 = (props) => {
             </div>
             <textarea nameName="" id="" cols="35" rows="12">{props.description}</textarea>
             <div class="button">
-              <a href=""><button>Editar</button></a>
-              <a href="./index.html"><button>Voltar</button></a>
+              <a href=""><Link to={"/UpdateRegister"}><button>Editar</button></Link></a>
+              <a href="./index.html"><Link to={"/home"}><button>Voltar</button></Link></a>
             </div>
           </div>
         </div>

@@ -9,15 +9,17 @@ export const Box1 = (props) => {
         <form>
           <label class="label-digite" for="os">Digite o numero da os:</label>
           <input type="text" id="os" placeholder="Numero da O.S" />
-          <div className="inputs">
-            <input type="radio" value="cliente" name="consulta" id="cliente" />
-            <label for="" id="cliente">Cliente</label>
+          <div className="inputs ">
+            <div className="inputs">
+              <input type="radio" value="cliente" name="consulta" id="cliente" />
+              <label for="" id="cliente">Cliente</label>
+            </div>
+            <div className="inputs">
+              <input type="radio" value="tecnico" name="consulta" />
+              <label for="" id="cliente">Técnico</label>
+            </div>
           </div>
-          <div className="inputs">
-            <input type="radio" value="tecnico" name="consulta" />
-            <label for="" id="cliente">Técnico</label>
-          </div>
-          <a href="#"><button>Consultar</button></a>
+          <input type="submit" value="Consultar" />
         </form>
       </div>
     </div>

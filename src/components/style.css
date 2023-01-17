@@ -1,14 +1,49 @@
-*{
+* {
   margin: 0px;
   padding: 0px;
+  border: none;
 }
-.justify-app{
+
+textarea:focus,
+input:focus {
+  outline: none;
+  border: 2px solid #08558b
+}
+
+
+input {
+  border: 2px solid #323232;
+  padding: 10px;
+}
+
+a,
+label {
+  font-size: .9rem;
+}
+
+a:hover {
+  color: #08558b
+}
+
+body {
+  font-size: 1em;
+  font-family: Helvetica, sans-serif;
+  text-align: center;
+}
+
+.justify-app {
   display: flex;
   justify-content: space-around;
 }
-h1{
+
+h1 {
   margin-bottom: 35px;
 }
+
+h2 {
+  text-align: left;
+}
+
 ul {
   list-style-type: none;
   display: flex;
@@ -17,6 +52,18 @@ ul {
 
 li {
   padding: 10px;
+}
+
+.inputs {
+  display: flex;
+  text-align: left;
+  width: 100%;
+}
+
+#os {
+  margin-bottom: 15px;
+  font-size: 10px;
+
 }
 
 a {
@@ -32,15 +79,18 @@ a {
 }
 
 .box {
+  margin-top: 7vh;
+  margin-left: auto;
+  margin-right: auto;
   width: 300px;
   height: 200px;
-  background: #D9D9D9;
+  background: #adb4ba;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  border-radius: 10%;
-  border: 2px solid black;
+  border-radius: 20px;
+  border: 1px solid black;
 }
 
 form {
@@ -53,16 +103,49 @@ form {
   padding: 10px;
 }
 
-.inputs {
-  display: inline-block;
-}
-
 button {
   margin-top: 15px;
 }
-.cadastrar {
-  margin-top: 30px;
+
+input[type="submit"] {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  border: none;
+  height: 30px;
+  margin-top: 10px;
+  border-radius: 10px;
+  color: #fff;
+  background-color: #3b3e40;
+  cursor: pointer;
+
 }
+
+input[type="submit"]:hover {
+  background-color: #1b223c;
+  transition: .3s;
+}
+
+.cadastrar {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  border: none;
+  height: 30px;
+  width: 250px;
+  margin-top: 40px;
+  border-radius: 10px;
+  color: #fff;
+  background-color: #1b223c;
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.cadastrar:hover {
+  opacity: 1;
+  transition: .3s;
+}
+
 .box1 {
   width: 275px;
   height: 400px;

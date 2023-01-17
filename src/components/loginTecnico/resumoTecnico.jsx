@@ -1,11 +1,13 @@
 import React from "react";
 import { Box2 } from "../box/Box2";
+import Header from "../Header";
 
 
 
 export const ResumoTecnico = () => {
   return (
     <div>
+      <Header/>
       <div className="justify-app">
         <Box2 name="Renato Bouças"
           device="iPhone 13 pro max 256gb"
