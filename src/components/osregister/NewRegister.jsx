@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { putData } from "../../AwsFunctions";
 
-export const Register = () => {
+export const NewRegister = () => {
   const [formData, setFormData] = useState({
     nomecompleto: "",
     numero: "",
@@ -18,10 +19,20 @@ export const Register = () => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // handle form submission here, ex:
-    // submitFormDataToMongoDB(formData);
+  const handleSubmit = (tableName, data) => {
+    putData(
+      "gerador-de-os-db",
+      formData.nomecompleto,
+      formData.numero,
+      formData.email,
+      formData.nomeaparelho,
+      formData.imei,
+      formData.modelo,
+      formData.cor,
+      formData.data,
+      formData.defeito,
+      formData.condicoes
+    );
   };
 
   return (
@@ -29,7 +40,7 @@ export const Register = () => {
       <div>
         <form onSubmit={handleSubmit}>
           <h1>Cadastro Cliente</h1>
-          <label for="nomecompleto">Nome Completo:</label>
+          <label htmlFor="nomecompleto">Nome Completo:</label>
           <input
             type="text"
             id="nomecompleto"
@@ -38,7 +49,7 @@ export const Register = () => {
             value={formData.nomecompleto}
             onChange={handleChange}
           ></input>
-          <label for="numero">Telefone:</label>
+          <label htmlFor="numero">Telefone:</label>
           <input
             type="number"
             id="numero"
@@ -47,7 +58,7 @@ export const Register = () => {
             value={formData.numero}
             onChange={handleChange}
           ></input>
-          <label for="email">Email:</label>
+          <label htmlFor="email">Email:</label>
           <input
             type="text"
             id="email"
@@ -58,7 +69,7 @@ export const Register = () => {
           />
 
           <h1>Cadastro Aparelho</h1>
-          <label for="nomeaparelho">Nome do Aparelho:</label>
+          <label htmlFor="nomeaparelho">Nome do Aparelho:</label>
           <input
             type="text"
             id="nomeaparelho"
@@ -67,7 +78,7 @@ export const Register = () => {
             value={formData.nomeaparelho}
             onChange={handleChange}
           />
-          <label for="imei">IMEI</label>
+          <label htmlFor="imei">IMEI</label>
           <input
             type="text"
             id="imei"
@@ -76,7 +87,7 @@ export const Register = () => {
             value={formData.imei}
             onChange={handleChange}
           />
-          <label for="modelo">Modelo</label>
+          <label htmlFor="modelo">Modelo</label>
           <input
             type="text"
             id="modelo"
@@ -85,7 +96,7 @@ export const Register = () => {
             value={formData.modelo}
             onChange={handleChange}
           />
-          <label for="cor">Cor</label>
+          <label htmlFor="cor">Cor</label>
           <input
             type="text"
             id="cor"
@@ -94,7 +105,7 @@ export const Register = () => {
             value={formData.cor}
             onChange={handleChange}
           />
-          <label for="data">Data</label>
+          <label htmlFor="data">Data</label>
           <input
             type="date"
             id="data"
@@ -121,7 +132,11 @@ export const Register = () => {
             value={formData.condicoes}
             onChange={handleChange}
           />
-          <input type="button" onChange={handleSubmit} value="Cadastrar"/>
+          <input
+            type="button"
+            onClick={() => handleSubmit()}
+            value="Cadastrar"
+          />
         </form>
       </div>
     </div>

@@ -1,13 +1,23 @@
-import { Register } from "./components/osregister/Register";
-import { UpdateRegister } from "./components/osregister/UpdateRegister";
-import { ConsultaAndamento } from "./components/consulta/ConsultaAndamento";
-import { ConsultaConcluido } from "./components/consulta/ConsultaConcluido";
+import * as AWS from 'aws-sdk'
+import {fetchData} from './AwsFunctions';
+import { NewRegister } from './components/osregister/NewRegister';
 
 
 function App() {
+
+  const fetchDataFormDynamoDb = () => {
+    fetchData('gerador-de-os-db')
+  }
+
+  const handleEnv = () => {
+    console.log(process.env)
+  } 
+
   return (
     <div className="App">
-      <Register/>
+      <NewRegister/>
+      <button onClick={() => fetchDataFormDynamoDb()}> Fetch </button>
+      <button onClick={() => handleEnv()}>Click here</button>
     </div>
   );
 }
