@@ -4,8 +4,8 @@ import { v4 as uuidv4 } from "uuid";
 AWS.config.update({
   region: "us-east-1",
   endpoint: "http://dynamodb.us-east-1.amazonaws.com",
-  accessKeyId: process.env.ACCESS_KEY_ID,
-  secretAccessKey: process.env.SECRET_ACCESS_KEY,
+  accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
+  secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY,
 });
 
 const db = new AWS.DynamoDB.DocumentClient();

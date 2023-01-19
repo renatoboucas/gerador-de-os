@@ -1,7 +1,6 @@
-import * as AWS from 'aws-sdk'
+
 import {fetchData} from './AwsFunctions';
 import { NewRegister } from './components/osregister/NewRegister';
-
 
 function App() {
 
@@ -9,15 +8,17 @@ function App() {
     fetchData('gerador-de-os-db')
   }
 
+
+
   const handleEnv = () => {
-    console.log(process.env)
+    console.log(process.env.REACT_APP_SECRET_ACCESS_KEY)
   } 
 
   return (
     <div className="App">
       <NewRegister/>
       <button onClick={() => fetchDataFormDynamoDb()}> Fetch </button>
-      <button onClick={() => handleEnv()}>Click here</button>
+      <button onClick={() => handleEnv()}> ENV </button>
     </div>
   );
 }
