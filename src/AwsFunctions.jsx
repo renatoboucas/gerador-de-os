@@ -75,3 +75,45 @@ export const putData = (
     }
   });
 };
+
+let modify = function () {
+
+    
+  var params = {
+      TableName: "gerador-de-os-db",
+      Key: { "id": "example-1@gmail.com" },
+      UpdateExpression: "set updated_by = :byUser, is_deleted = :boolValue",
+      ExpressionAttributeValues: {
+          ":byUser": "updateUser",
+          ":boolValue": true
+      },
+      ReturnValues: "UPDATED_NEW"
+
+  };
+  db.update(params, function (err, data) {
+
+      if (err) {
+          console.log("users::update::error - " + JSON.stringify(err, null, 2));
+      } else {
+          console.log("users::update::success "+JSON.stringify(data) );
+      }
+  });
+}
+
+let remove = function () {
+
+  var params = {
+      TableName: "gerador-de-os-db",
+      Key: {
+          "id": "4329a76d-e6ed-49bd-9f2f-b1b25ac7d7ff"
+      }
+  };
+  db.delete(params, function (err, data) {
+
+      if (err) {
+          console.log("users::delete::error - " + JSON.stringify(err, null, 2));
+      } else {
+          console.log("users::delete::success");
+      }
+  });
+}

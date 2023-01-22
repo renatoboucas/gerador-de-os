@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { putData } from "../../AwsFunctions";
 
 export const NewRegister = () => {
+
+  //cria o state e os valores iniciais dos dados no banco
   const [formData, setFormData] = useState({
-    nomecompleto: "",
+    nome: "",
     numero: "",
     email: "",
     nomeaparelho: "",
@@ -15,6 +17,17 @@ export const NewRegister = () => {
     condicoes: "",
   });
 
+  //pega a data atual de acordo com os dados do sistema
+  function getCurrentDate() {
+    var currentDate = new Date();
+    return currentDate.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+}
+
+
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
@@ -22,14 +35,14 @@ export const NewRegister = () => {
   const handleSubmit = (tableName, data) => {
     putData(
       "gerador-de-os-db",
-      formData.nomecompleto,
+      formData.nome,
       formData.numero,
       formData.email,
       formData.nomeaparelho,
       formData.imei,
       formData.modelo,
       formData.cor,
-      formData.data,
+      getCurrentDate(),
       formData.defeito,
       formData.condicoes
     );
@@ -40,13 +53,13 @@ export const NewRegister = () => {
       <div>
         <form onSubmit={handleSubmit}>
           <h1>Cadastro Cliente</h1>
-          <label htmlFor="nomecompleto">Nome Completo:</label>
+          <label htmlFor="nome">Nome Completo:</label>
           <input
             type="text"
-            id="nomecompleto"
-            name="nomecompleto"
+            id="nome"
+            name="nome"
             placeholder="Nome Completo"
-            value={formData.nomecompleto}
+            value={formData.nome}
             onChange={handleChange}
           ></input>
           <label htmlFor="numero">Telefone:</label>
@@ -105,15 +118,7 @@ export const NewRegister = () => {
             value={formData.cor}
             onChange={handleChange}
           />
-          <label htmlFor="data">Data</label>
-          <input
-            type="date"
-            id="data"
-            name="data"
-            placeholder="Data"
-            value={formData.data}
-            onChange={handleChange}
-          />
+      
           <h1>Defeito</h1>
           <input
             type="text"
