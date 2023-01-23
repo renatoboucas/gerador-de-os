@@ -85,52 +85,6 @@ export const UpdateRegister = () => {
     });
 }
 
-//   const handleSubmit = async (event) => {
-//     event.preventDefault();
-//     try {
-//         const { nome, numero, email, nomeaparelho, imei, modelo, cor, data, defeito, condicoes } = formData;
-//         const params = {
-//             TableName: "gerador-de-os-db",
-//             Key: {
-//                 "id": '407722c6-b6e8-41ca-a62c-f4b9858ba82b'
-//             },
-//             UpdateExpression: "set nome = :n, numero = :num, email = :e, nomeaparelho = :nomeap, imei = :i, modelo = :m, cor = :c, data = :data, defeito = :d, condicoes = :cond",
-//             ExpressionAttributeValues: {
-//               ":n": {S: nome},
-//               ":num": {S: numero},
-//               ":e": {S: email},
-//               ":nomeap": {S: nomeaparelho},
-//               ":i": {S: imei},
-//               ":m": {S: modelo},
-//               ":c": {S: cor},
-//               ":data": {S: data},
-//               ":d": {S: defeito},
-//               ":cond": {S: condicoes}
-//             },
-//             ReturnValues: "UPDATED_NEW"
-//         };
-//         await db.update(params).promise();
-
-//         // atualiza o estado para refletir nas alteracoes
-//         setFormData({
-//             nome: "",
-//             numero: "",
-//             email: "",
-//             nomeaparelho: "",
-//             imei: "",
-//             modelo: "",
-//             cor: "",
-//             data: "",
-//             defeito: "",
-//             condicoes: ""
-//         });
-
-//     } catch (err) {
-//         console.log(err);
-//     } 
-// };
-
-
 
 const handleDelete = async (tableName, key) => {
   const db = new AWS.DynamoDB.DocumentClient();
