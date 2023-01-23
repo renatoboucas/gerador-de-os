@@ -8,7 +8,7 @@ AWS.config.update({
   secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY,
 });
 
-const db = new AWS.DynamoDB.DocumentClient();
+export const db = new AWS.DynamoDB.DocumentClient();
 
 export const fetchData = (tableName) => {
   var params = {

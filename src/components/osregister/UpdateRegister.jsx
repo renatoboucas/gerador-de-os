@@ -1,17 +1,9 @@
 import { React, useState, useEffect } from 'react'
 import AWS from 'aws-sdk/global';
 import DynamoDB from 'aws-sdk/clients/dynamodb';
+import { db } from '../../AwsFunctions'
 
 export const UpdateRegister = () => {
-
-  const db = new AWS.DynamoDB.DocumentClient();
-
-  // Inicia o AWS SDK e configura as suas credenciais
-  AWS.config.update({
-    region: "us-east-1",
-    accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
-    secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY,
-  });
 
   //cria o state e os valores iniciais dos dados no banco
   const [formData, setFormData] = useState({
@@ -34,7 +26,7 @@ export const UpdateRegister = () => {
     // Define o nome da tabela e chave primária para os itens que queremos fetch
     const params = {
       TableName: 'gerador-de-os-db',
-      Key: { 'id': '407722c6-b6e8-41ca-a62c-f4b9858ba82b' },
+      Key: { 'id': '29e9e1cd-8ec6-4a9e-b803-7deee5b2d499' },
     };
 
     try {
@@ -56,10 +48,10 @@ export const UpdateRegister = () => {
 
   const handleSubmit = () => {
 
-    
+    //Atualiza o item no DynamoDB usando o AWS SDK
     var params = {
       TableName: "gerador-de-os-db",
-      Key: { "id": "407722c6-b6e8-41ca-a62c-f4b9858ba82b" },
+      Key: { "id": "29e9e1cd-8ec6-4a9e-b803-7deee5b2d499" },
       UpdateExpression: "set nome = :n, numero = :num, email = :e, nomeaparelho = :nomeap, imei = :i, modelo = :m, cor = :c, defeito = :d, condicoes = :cond",
   ExpressionAttributeValues: {
     ":n": formData.nome,
@@ -68,7 +60,7 @@ export const UpdateRegister = () => {
     ":nomeap": formData.nomeaparelho,
     ":i": formData.imei,
     ":m": formData.modelo,
-    ":c": formData.condicoes,
+    ":c": formData.cor,
     ":d": formData.defeito,
     ":cond": formData.condicoes
   },
@@ -88,15 +80,15 @@ export const UpdateRegister = () => {
 
 const handleDelete = async (tableName, key) => {
   const db = new AWS.DynamoDB.DocumentClient();
-   // Build the parameters for the delete operation
+   // Constroi os parametros para a operação de delete
   const params = {
     TableName: 'gerador-de-os-db',
-    Key: { "id": '407722c6-b6e8-41ca-a62c-f4b9858ba82b' }
+    Key: { "id": '29e9e1cd-8ec6-4a9e-b803-7deee5b2d499' }
 
   };
 
   try {
-    // Execute the delete operation
+    // Executa a operação de delete
     await db.delete(params).promise();
     console.log(`Successfully deleted item with key: ${JSON.stringify(key)}`);
   } catch (err) {
