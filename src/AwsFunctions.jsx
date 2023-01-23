@@ -76,44 +76,49 @@ export const putData = (
   });
 };
 
-let modify = function () {
-
-    
+export const handleUpdate = (formData, db) => {
+  //Atualiza o item no DynamoDB usando o AWS SDK
   var params = {
-      TableName: "gerador-de-os-db",
-      Key: { "id": "example-1@gmail.com" },
-      UpdateExpression: "set updated_by = :byUser, is_deleted = :boolValue",
-      ExpressionAttributeValues: {
-          ":byUser": "updateUser",
-          ":boolValue": true
-      },
-      ReturnValues: "UPDATED_NEW"
-
+    TableName: "gerador-de-os-db",
+    Key: { id: "25d63d96-b2a6-4184-8b38-b7f515e4c6d6" },
+    UpdateExpression:
+      "set nome = :n, numero = :num, email = :e, nomeaparelho = :nomeap, imei = :i, modelo = :m, cor = :c, defeito = :d, condicoes = :cond",
+    ExpressionAttributeValues: {
+      ":n": formData.nome,
+      ":num": formData.numero,
+      ":e": formData.email,
+      ":nomeap": formData.nomeaparelho,
+      ":i": formData.imei,
+      ":m": formData.modelo,
+      ":c": formData.cor,
+      ":d": formData.defeito,
+      ":cond": formData.condicoes,
+    },
+    ReturnValues: "UPDATED_NEW",
   };
   db.update(params, function (err, data) {
-
-      if (err) {
-          console.log("users::update::error - " + JSON.stringify(err, null, 2));
-      } else {
-          console.log("users::update::success "+JSON.stringify(data) );
-      }
+    if (err) {
+      console.log("users::update::error - " + JSON.stringify(err, null, 2));
+    } else {
+      console.log("users::update::success " + JSON.stringify(data));
+    }
   });
-}
+};
 
-let remove = function () {
-
-  var params = {
-      TableName: "gerador-de-os-db",
-      Key: {
-          "id": "4329a76d-e6ed-49bd-9f2f-b1b25ac7d7ff"
-      }
+export const handleDelete = async (tableName, key) => {
+  // Constroi os parametros para a operação de delete
+  const params = {
+    TableName: "gerador-de-os-db",
+    Key: { id: "25d63d96-b2a6-4184-8b38-b7f515e4c6d6" },
   };
-  db.delete(params, function (err, data) {
 
-      if (err) {
-          console.log("users::delete::error - " + JSON.stringify(err, null, 2));
-      } else {
-          console.log("users::delete::success");
-      }
-  });
-}
+  try {
+    // Executa a operação de delete
+    await db.delete(params).promise();
+    console.log(`Successfully deleted item with key: ${JSON.stringify(key)}`);
+  } catch (err) {
+    console.error(
+      `Error deleting item with key: ${JSON.stringify(key)}. Error: ${err}`
+    );
+  }
+};

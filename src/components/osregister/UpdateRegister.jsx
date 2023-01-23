@@ -1,10 +1,7 @@
-import { React, useState, useEffect } from 'react'
-import AWS from 'aws-sdk/global';
-import DynamoDB from 'aws-sdk/clients/dynamodb';
-import { db } from '../../AwsFunctions'
+import { React, useState, useEffect } from "react";
+import { db, handleUpdate, handleDelete } from "../../AwsFunctions";
 
 export const UpdateRegister = () => {
-
   //cria o state e os valores iniciais dos dados no banco
   const [formData, setFormData] = useState({
     nome: "",
@@ -21,12 +18,10 @@ export const UpdateRegister = () => {
 
   // Pega os dados usando o AWS SDK e atualizada o state no formData
   const fetchData = async () => {
-    
-    const db = new DynamoDB.DocumentClient();
     // Define o nome da tabela e chave primária para os itens que queremos fetch
     const params = {
-      TableName: 'gerador-de-os-db',
-      Key: { 'id': '29e9e1cd-8ec6-4a9e-b803-7deee5b2d499' },
+      TableName: "gerador-de-os-db",
+      Key: { id: "25d63d96-b2a6-4184-8b38-b7f515e4c6d6" },
     };
 
     try {
@@ -35,71 +30,20 @@ export const UpdateRegister = () => {
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   useEffect(() => {
     fetchData();
   }, []);
 
-
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = () => {
-
-    //Atualiza o item no DynamoDB usando o AWS SDK
-    var params = {
-      TableName: "gerador-de-os-db",
-      Key: { "id": "29e9e1cd-8ec6-4a9e-b803-7deee5b2d499" },
-      UpdateExpression: "set nome = :n, numero = :num, email = :e, nomeaparelho = :nomeap, imei = :i, modelo = :m, cor = :c, defeito = :d, condicoes = :cond",
-  ExpressionAttributeValues: {
-    ":n": formData.nome,
-    ":num": formData.numero,
-    ":e": formData.email,
-    ":nomeap": formData.nomeaparelho,
-    ":i": formData.imei,
-    ":m": formData.modelo,
-    ":c": formData.cor,
-    ":d": formData.defeito,
-    ":cond": formData.condicoes
-  },
-        ReturnValues: "UPDATED_NEW"
-
-    };
-    db.update(params, function (err, data) {
-
-        if (err) {
-            console.log("users::update::error - " + JSON.stringify(err, null, 2));
-        } else {
-            console.log("users::update::success "+JSON.stringify(data) );
-        }
-    });
-}
-
-
-const handleDelete = async (tableName, key) => {
-  const db = new AWS.DynamoDB.DocumentClient();
-   // Constroi os parametros para a operação de delete
-  const params = {
-    TableName: 'gerador-de-os-db',
-    Key: { "id": '29e9e1cd-8ec6-4a9e-b803-7deee5b2d499' }
-
-  };
-
-  try {
-    // Executa a operação de delete
-    await db.delete(params).promise();
-    console.log(`Successfully deleted item with key: ${JSON.stringify(key)}`);
-  } catch (err) {
-    console.error(`Error deleting item with key: ${JSON.stringify(key)}. Error: ${err}`);
-  }
-};
-
   return (
     <div>
       <div>
-        <form onSubmit={() => handleSubmit()}>
+        <form onSubmit={() => handleUpdate()}>
           <label htmlFor="nome"></label>
           <input
             type="text"
@@ -137,9 +81,13 @@ const handleDelete = async (tableName, key) => {
             onChange={handleChange}
           ></input>
           <label htmlFor="imei">IMEI:</label>
-          <input type="number" id="imei" name="imei" placeholder="IMEI"
-          value={formData.imei}
-          onChange={handleChange}
+          <input
+            type="number"
+            id="imei"
+            name="imei"
+            placeholder="IMEI"
+            value={formData.imei}
+            onChange={handleChange}
           ></input>
           <label htmlFor="modelo">Modelo:</label>
           <input
@@ -151,17 +99,41 @@ const handleDelete = async (tableName, key) => {
             onChange={handleChange}
           ></input>
           <label htmlFor="cor">Cor:</label>
-          <input type="text" id="cor" name="cor" placeholder="Cor" value={formData.cor}
-            onChange={handleChange}></input>
-        
+          <input
+            type="text"
+            id="cor"
+            name="cor"
+            placeholder="Cor"
+            value={formData.cor}
+            onChange={handleChange}
+          ></input>
+
           <p>Defeito</p>
-          <input type="text" id="defeito" name="defeito" value={formData.defeito}
-            onChange={handleChange} />
+          <input
+            type="text"
+            id="defeito"
+            name="defeito"
+            value={formData.defeito}
+            onChange={handleChange}
+          />
           <p>Condiçoes</p>
-          <input type="text" id="condicoes" name="condicoes" value={formData.condicoes}
-            onChange={handleChange}/>
-          <input type="submit" value="Atualizar" onClick={() => handleSubmit()}></input>
-          <input type="submit" value="Excluir" onClick={() => handleDelete()}></input>
+          <input
+            type="text"
+            id="condicoes"
+            name="condicoes"
+            value={formData.condicoes}
+            onChange={handleChange}
+          />
+          <input
+            type="submit"
+            value="Atualizar"
+            onClick={() => handleUpdate(formData, db)}
+          ></input>
+          <input
+            type="submit"
+            value="Excluir"
+            onClick={() => handleDelete()}
+          ></input>
         </form>
       </div>
     </div>
