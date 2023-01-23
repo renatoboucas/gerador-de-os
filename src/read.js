@@ -14,7 +14,7 @@ let fetchOneByKey = function () {
   var params = {
     TableName: "gerador-de-os-db",
     Key: {
-      id: "idnumberone",
+      id: "407722c6-b6e8-41ca-a62c-f4b9858ba82b",
     },
   };
 

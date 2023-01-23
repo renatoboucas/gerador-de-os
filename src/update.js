@@ -14,12 +14,19 @@ let modify = function () {
     
     var params = {
         TableName: "gerador-de-os-db",
-        Key: { "id": "example-1@gmail.com" },
-        UpdateExpression: "set updated_by = :byUser, is_deleted = :boolValue",
-        ExpressionAttributeValues: {
-            ":byUser": "updateUser",
-            ":boolValue": true
-        },
+        Key: { "id": "407722c6-b6e8-41ca-a62c-f4b9858ba82b" },
+        UpdateExpression: "set nome = :n, numero = :num, email = :e, nomeaparelho = :nomeap, imei = :i, modelo = :m, cor = :c, defeito = :d, condicoes = :cond",
+    ExpressionAttributeValues: {
+      ":n": "Jessika Cabral",
+      ":num": "4077018267",
+      ":e": "jessikacabral@gmail.com",
+      ":nomeap": "iPhone",
+      ":i": "12456789876",
+      ":m": "14 Pro Max",
+      ":c": "Purple",
+      ":d": "Bateria",
+      ":cond": "Mint"
+    },
         ReturnValues: "UPDATED_NEW"
 
     };

@@ -1,29 +1,28 @@
-import { react, useState, useEffect } from 'react'
-import { putData } from "../../AwsFunctions";
-import AWS from 'aws-sdk';
-
+import { React, useState, useEffect } from 'react'
+import AWS from 'aws-sdk/global';
+import DynamoDB from 'aws-sdk/clients/dynamodb';
 
 export const UpdateRegister = () => {
 
-  
+  const db = new AWS.DynamoDB.DocumentClient();
 
   // Inicia o AWS SDK e configura as suas credenciais
   AWS.config.update({
     region: "us-east-1",
-    endpoint: "http://dynamodb.us-east-1.amazonaws.com",
     accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
     secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY,
   });
 
   //cria o state e os valores iniciais dos dados no banco
   const [formData, setFormData] = useState({
-    nomecompleto: "",
+    nome: "",
     numero: "",
     email: "",
     nomeaparelho: "",
     imei: "",
     modelo: "",
     cor: "",
+    data: "",
     defeito: "",
     condicoes: "",
   });
@@ -31,11 +30,11 @@ export const UpdateRegister = () => {
   // Pega os dados usando o AWS SDK e atualizada o state no formData
   const fetchData = async () => {
     
-    const db = new AWS.DynamoDB.DocumentClient();
+    const db = new DynamoDB.DocumentClient();
     // Define o nome da tabela e chave primária para os itens que queremos fetch
     const params = {
       TableName: 'gerador-de-os-db',
-      Key: { 'id': 'df3a1289-93b5-4920-9bde-ec184153e406' },
+      Key: { 'id': '407722c6-b6e8-41ca-a62c-f4b9858ba82b' },
     };
 
     try {
@@ -55,66 +54,82 @@ export const UpdateRegister = () => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-        const { nome, numero, email, nomeaparelho, imei, modelo, cor, defeito, condicoes } = formData;
+  const handleSubmit = () => {
 
-        // cria um objeto que representa o item que voce quer atualizar
-        const item = {
-            nome,
-            numero,
-            email,
-            nomeaparelho,
-            imei,
-            modelo,
-            cor,
-            defeito,
-            condicoes
-        };
+    
+    var params = {
+      TableName: "gerador-de-os-db",
+      Key: { "id": "407722c6-b6e8-41ca-a62c-f4b9858ba82b" },
+      UpdateExpression: "set nome = :n, numero = :num, email = :e, nomeaparelho = :nomeap, imei = :i, modelo = :m, cor = :c, defeito = :d, condicoes = :cond",
+  ExpressionAttributeValues: {
+    ":n": formData.nome,
+    ":num": formData.numero,
+    ":e": formData.email,
+    ":nomeap": formData.nomeaparelho,
+    ":i": formData.imei,
+    ":m": formData.modelo,
+    ":c": formData.condicoes,
+    ":d": formData.defeito,
+    ":cond": formData.condicoes
+  },
+        ReturnValues: "UPDATED_NEW"
 
-        // atualiza o item no DynamoDB usando o AWS SDK
-        await AWS.DynamoDB.update({
-            TableName: "gerador-de-os-db",
-            Key: {
-                "id": { S: 'df3a1289-93b5-4920-9bde-ec184153e406' }
-            },
-            UpdateExpression: "set nome=:nome, numero=:num, email=:email, nomeaparelho=:nomeaparelho, imei=:imei, modelo=:modelo, cor=:cor, data=:data, defeito=:defeito, condicoes=:cond",
-            ExpressionAttributeValues: {
-              ":nome": { S: nome},
-                ":num": { N: numero },
-                ":email": { S: email },
-                ":nomeaparelho": { S: nomeaparelho },
-                ":imei": { S: imei },
-                ":modelo": { S: modelo },
-                ":cor": { S: cor },
-                ":defeito": { S: defeito },
-                ":cond": { S: condicoes }
-            },
-            ReturnValues: "UPDATED_NEW"
-        }).promise();
+    };
+    db.update(params, function (err, data) {
 
-        // atualiza o estado para refletir nas alteracoes
-        setFormData({
-            nome: "",
-            numero: "",
-            email: "",
-            nomeaparelho: "",
-            imei: "",
-            modelo: "",
-            cor: "",
-            data: "",
-            defeito: "",
-            condicoes: ""
-        });
+        if (err) {
+            console.log("users::update::error - " + JSON.stringify(err, null, 2));
+        } else {
+            console.log("users::update::success "+JSON.stringify(data) );
+        }
+    });
+}
 
-        // mostra uma mensagem ao usuário indicanto que o item foi atualizado com sucesso
-        alert("Item updated successfully!");
-    } catch (err) {
-        console.log(err);
-        alert("There was an error updating the item. Please try again.");
-    }
-};
+//   const handleSubmit = async (event) => {
+//     event.preventDefault();
+//     try {
+//         const { nome, numero, email, nomeaparelho, imei, modelo, cor, data, defeito, condicoes } = formData;
+//         const params = {
+//             TableName: "gerador-de-os-db",
+//             Key: {
+//                 "id": '407722c6-b6e8-41ca-a62c-f4b9858ba82b'
+//             },
+//             UpdateExpression: "set nome = :n, numero = :num, email = :e, nomeaparelho = :nomeap, imei = :i, modelo = :m, cor = :c, data = :data, defeito = :d, condicoes = :cond",
+//             ExpressionAttributeValues: {
+//               ":n": {S: nome},
+//               ":num": {S: numero},
+//               ":e": {S: email},
+//               ":nomeap": {S: nomeaparelho},
+//               ":i": {S: imei},
+//               ":m": {S: modelo},
+//               ":c": {S: cor},
+//               ":data": {S: data},
+//               ":d": {S: defeito},
+//               ":cond": {S: condicoes}
+//             },
+//             ReturnValues: "UPDATED_NEW"
+//         };
+//         await db.update(params).promise();
+
+//         // atualiza o estado para refletir nas alteracoes
+//         setFormData({
+//             nome: "",
+//             numero: "",
+//             email: "",
+//             nomeaparelho: "",
+//             imei: "",
+//             modelo: "",
+//             cor: "",
+//             data: "",
+//             defeito: "",
+//             condicoes: ""
+//         });
+
+//     } catch (err) {
+//         console.log(err);
+//     } 
+// };
+
 
 
 const handleDelete = async (tableName, key) => {
@@ -122,7 +137,8 @@ const handleDelete = async (tableName, key) => {
    // Build the parameters for the delete operation
   const params = {
     TableName: 'gerador-de-os-db',
-    Key: 'df3a1289-93b5-4920-9bde-ec184153e406'
+    Key: { "id": '407722c6-b6e8-41ca-a62c-f4b9858ba82b' }
+
   };
 
   try {
@@ -150,7 +166,7 @@ const handleDelete = async (tableName, key) => {
           <input
             type="checkbox"
             id="concluido"
-            name="Concluído"
+            name="concluido"
             value={formData.concluido}
             onChange={handleChange}
           ></input>
