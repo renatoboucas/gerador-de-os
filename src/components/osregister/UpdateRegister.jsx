@@ -43,10 +43,6 @@ export const UpdateRegister = () => {
 
   return (
     <div>
-<<<<<<< HEAD
-      <Header />
-=======
->>>>>>> alpha-1
       <div>
         <form onSubmit={() => handleUpdate()}>
           <label htmlFor="nome"></label>
