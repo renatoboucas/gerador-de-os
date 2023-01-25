@@ -7,18 +7,8 @@ export const Box1 = (props) => {
       <div className="box">
         <h2>{props.titulo}</h2>
         <form>
-          <label class="label-digite" for="os">Digite o numero da os:</label>
-          <input type="text" id="os" placeholder="Numero da O.S" />
-          <div className="inputs ">
-            <div className="inputs">
-              <input type="radio" value="cliente" name="consulta" id="cliente" />
-              <label for="" id="cliente">Cliente</label>
-            </div>
-            <div className="inputs">
-              <input type="radio" value="tecnico" name="consulta" />
-              <label for="" id="cliente">Técnico</label>
-            </div>
-          </div>
+          <label className="label-digite" htmlfor="os">{props.digite}</label>
+          <input type="text" id="os" placeholder={props.placeholder} />
           <input type="submit" value="Consultar" />
         </form>
       </div>

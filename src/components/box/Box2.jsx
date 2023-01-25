@@ -18,17 +18,19 @@ export const Box2 = (props) => {
               <p>{props.device} </p>
             </div>
             <div>
-              <input type="checkbox" value="status" name={props.status} checked/>
-              <label for="em_andamento">{props.status}</label>
+              <input type="checkbox" value="status" name={props.status} checked />
+              <label htmlfor="em_andamento">{props.status}</label>
 
             </div>
-            <div class="conteudo">
+            <div className="conteudo">
               <h1>{props.deviceStatus}</h1>
             </div>
-            <textarea nameName="" id="" cols="35" rows="12">{props.description}</textarea>
-            <div class="button">
-              <a href=""><Link to={"/UpdateRegister"}><button>Editar</button></Link></a>
-              <a href="./index.html"><Link to={"/home"}><button>Voltar</button></Link></a>
+            <textarea className="" id="" cols="35" rows="12">{props.description}</textarea>
+            <div className="button">
+              
+              <Link to="/UpdateRegister"><input type="button" className="btn" value="Editar" /></Link>
+              <Link to={"/"}><input type="button" className="btn" value="Voltar" /></Link>
+             <input type="button" value="Finalizar" className="btn" />
             </div>
           </div>
         </div>
