@@ -1,4 +1,3 @@
-import { Register } from "./components/osregister/Register";
 import { UpdateRegister } from "./components/osregister/UpdateRegister";
 
 
