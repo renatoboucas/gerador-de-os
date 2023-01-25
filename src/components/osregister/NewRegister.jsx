@@ -1,8 +1,8 @@
-import { React, useState, useEffect } from "react";
-import { db, handleUpdate, handleDelete } from "../../AwsFunctions";
+import React, { useState } from "react";
+import { putData } from "../../AwsFunctions";
 
+export const NewRegister = () => {
 
-export const UpdateRegister = () => {
   //cria o state e os valores iniciais dos dados no banco
   const [formData, setFormData] = useState({
     nome: "",
@@ -17,39 +17,43 @@ export const UpdateRegister = () => {
     condicoes: "",
   });
 
-  // Pega os dados usando o AWS SDK e atualizada o state no formData
-  const fetchData = async () => {
-    // Define o nome da tabela e chave primária para os itens que queremos fetch
-    const params = {
-      TableName: "gerador-de-os-db",
-      Key: { id: "29e9e1cd-8ec6-4a9e-b803-7deee5b2d499" },
-    };
+  //pega a data atual de acordo com os dados do sistema
+  function getCurrentDate() {
+    var currentDate = new Date();
+    return currentDate.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+}
 
-    try {
-      const data = await db.get(params).promise();
-      setFormData(data.Item);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
+  const handleSubmit = (tableName, data) => {
+    putData(
+      "gerador-de-os-db",
+      formData.nome,
+      formData.numero,
+      formData.email,
+      formData.nomeaparelho,
+      formData.imei,
+      formData.modelo,
+      formData.cor,
+      getCurrentDate(),
+      formData.defeito,
+      formData.condicoes
+    );
+  };
+
   return (
     <div>
-<<<<<<< HEAD
-      <Header />
-=======
->>>>>>> alpha-1
       <div>
-        <form onSubmit={() => handleUpdate()}>
-          <label htmlFor="nome"></label>
+        <form onSubmit={handleSubmit}>
+          <h1>Cadastro Cliente</h1>
+          <label htmlFor="nome">Nome Completo:</label>
           <input
             type="text"
             id="nome"
@@ -58,24 +62,26 @@ export const UpdateRegister = () => {
             value={formData.nome}
             onChange={handleChange}
           ></input>
+          <label htmlFor="numero">Telefone:</label>
           <input
-            type="checkbox"
-            id="concluido"
-            name="concluido"
-            value={formData.concluido}
+            type="number"
+            id="numero"
+            name="numero"
+            placeholder="Telefone"
+            value={formData.numero}
             onChange={handleChange}
           ></input>
-          <label htmlFor="concluido"> Concluído</label>
+          <label htmlFor="email">Email:</label>
           <input
-            type="checkbox"
-            id="emandamento"
-            name="Em andamento"
-            value={formData.emandamento}
+            type="text"
+            id="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
             onChange={handleChange}
-          ></input>
-          <label htmlFor="emandamento"> Em Andamento</label>
+          />
 
-          <h1>Aparelho</h1>
+          <h1>Cadastro Aparelho</h1>
           <label htmlFor="nomeaparelho">Nome do Aparelho:</label>
           <input
             type="text"
@@ -84,17 +90,17 @@ export const UpdateRegister = () => {
             placeholder="Nome do Aparelho"
             value={formData.nomeaparelho}
             onChange={handleChange}
-          ></input>
-          <label htmlFor="imei">IMEI:</label>
+          />
+          <label htmlFor="imei">IMEI</label>
           <input
-            type="number"
+            type="text"
             id="imei"
             name="imei"
             placeholder="IMEI"
             value={formData.imei}
             onChange={handleChange}
-          ></input>
-          <label htmlFor="modelo">Modelo:</label>
+          />
+          <label htmlFor="modelo">Modelo</label>
           <input
             type="text"
             id="modelo"
@@ -102,8 +108,8 @@ export const UpdateRegister = () => {
             placeholder="Modelo"
             value={formData.modelo}
             onChange={handleChange}
-          ></input>
-          <label htmlFor="cor">Cor:</label>
+          />
+          <label htmlFor="cor">Cor</label>
           <input
             type="text"
             id="cor"
@@ -111,34 +117,31 @@ export const UpdateRegister = () => {
             placeholder="Cor"
             value={formData.cor}
             onChange={handleChange}
-          ></input>
-
-          <p>Defeito</p>
+          />
+      
+          <h1>Defeito</h1>
           <input
             type="text"
             id="defeito"
             name="defeito"
+            placeholder="Descreva o defeito"
             value={formData.defeito}
             onChange={handleChange}
           />
-          <p>Condiçoes</p>
+          <h1>Condições</h1>
           <input
             type="text"
             id="condicoes"
             name="condicoes"
+            placeholder="Descreva as condições"
             value={formData.condicoes}
             onChange={handleChange}
           />
           <input
-            type="submit"
-            value="Atualizar"
-            onClick={() => handleUpdate(formData, db)}
-          ></input>
-          <input
-            type="submit"
-            value="Excluir"
-            onClick={() => handleDelete()}
-          ></input>
+            type="button"
+            onClick={() => handleSubmit()}
+            value="Cadastrar"
+          />
         </form>
       </div>
     </div>
