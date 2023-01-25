@@ -1,10 +1,6 @@
-<<<<<<< HEAD
 import { React, useState, useEffect } from "react";
 import { db, handleUpdate, handleDelete } from "../../AwsFunctions";
-=======
-import React from "react";
-import Header from "../Header.jsx";
->>>>>>> 95e4b73c32b6afd52c255570c925f9591befcd35
+
 
 export const UpdateRegister = () => {
   //cria o state e os valores iniciais dos dados no banco
@@ -47,7 +43,6 @@ export const UpdateRegister = () => {
 
   return (
     <div>
-       <Header/>
       <div>
         <form onSubmit={() => handleUpdate()}>
           <label htmlFor="nome"></label>
