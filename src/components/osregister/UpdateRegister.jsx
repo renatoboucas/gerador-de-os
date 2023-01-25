@@ -21,7 +21,7 @@ export const UpdateRegister = () => {
     // Define o nome da tabela e chave primária para os itens que queremos fetch
     const params = {
       TableName: "gerador-de-os-db",
-      Key: { id: "25d63d96-b2a6-4184-8b38-b7f515e4c6d6" },
+      Key: { id: "29e9e1cd-8ec6-4a9e-b803-7deee5b2d499" },
     };
 
     try {

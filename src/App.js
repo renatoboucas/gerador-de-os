@@ -15,8 +15,8 @@ function App() {
 
   return (
     <div className="App">
-      {/* <NewRegister/> */}
-      <UpdateRegister/>
+      <NewRegister/>
+      {/* <UpdateRegister/> */}
       <button onClick={() => fetchDataFormDynamoDb()}> Fetch </button>
       <button onClick={() => handleEnv()}> ENV </button>
     </div>
