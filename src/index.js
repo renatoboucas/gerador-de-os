@@ -5,7 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { Home } from './components/home/home';
 import { LoginTecnico } from './components/loginTecnico/loginTecnico';
 import { ResumoTecnico } from './components/loginTecnico/resumoTecnico';
-import { Register } from './components/osregister/Register';
+import { NewRegister } from './components/osregister/NewRegister';
 import { UpdateRegister } from './components/osregister/UpdateRegister';
 
 const router = createBrowserRouter([
@@ -23,8 +23,8 @@ const router = createBrowserRouter([
         element: <ResumoTecnico />
       }
       , {
-        path: "/register",
-        element: <Register />
+        path: "/newregister",
+        element: <NewRegister />
       }, {
         path: "/UpdateRegister",
         element: <UpdateRegister />
