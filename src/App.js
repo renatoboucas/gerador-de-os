@@ -1,12 +1,10 @@
-import { UpdateRegister } from './components/osregister/UpdateRegister';
-import { NewRegister } from './components/osregister/NewRegister';
+import { Outlet } from "react-router-dom"
 
 function App() {
 
   return (
     <div className="App">
-      <NewRegister/>
-      {/* <UpdateRegister/> */}
+     <Outlet/>
     </div>
   );
 }
