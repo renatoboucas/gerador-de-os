@@ -16,7 +16,7 @@ export const Home = () => {
         placeholder="digite o numero da O.S"
         digite="Digite o numero da O.S"/>
       </div>
-      <Link to={"/register"}><button className="cadastrar">Cadastrar nova O.S</button></Link><br/>
+      <Link to={"/newregister"}><button className="cadastrar">Cadastrar nova O.S</button></Link><br/>
       <Link to={"/logintecnico"}><input type="button"id="tecnico"value="Sou tecnico" /></Link>
     </div>
   );
