@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { db } from "../../AwsFunctions";
 
 export const NewRegister = () => {
-  // Create the state and initial values for the data in the database
+  // Cria o state e os valores iniciais para os dados no banco de dados
   const [formData, setFormData] = useState({
     nome: "",
     numero: "",
@@ -15,31 +15,31 @@ export const NewRegister = () => {
     defeito: "",
     condicoes: "",
     id: "",
-});
+  });
 
-const [submitted, setSubmitted] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
-const handleSubmit = async (event, tableName) => {
-  event.preventDefault();
-  setSubmitted(true);
-  const retrieveData = async () => {
-    // Use the scan method to retrieve the last item in the table
-    const result = await db.scan({ TableName: tableName }).promise();
-    const maxId = result.Items.reduce((max, item) => {
+  const handleSubmit = async (event, tableName) => {
+    event.preventDefault();
+    setSubmitted(true);
+    const retrieveData = async () => {
+      // Utiliza o método scan para buscar o ultimo item na tabela
+      const result = await db.scan({ TableName: tableName }).promise();
+      const maxId = result.Items.reduce((max, item) => {
         return parseInt(item.id) > max ? parseInt(item.id) : max;
-    }, 0);
-    const newId = (maxId + 1).toString();
-    setFormData({ ...formData, id: newId });
+      }, 0);
+      const newId = (maxId + 1).toString();
+      setFormData({ ...formData, id: newId });
 
-    // Use the put method to add the new item to the table
-    const params = {
+      // Utiliza o metodo put para adicionar novos items na tabela
+      const params = {
         TableName: tableName,
         Item: {
-            ...formData,
-            id: newId
-        }
-    };
-    try {
+          ...formData,
+          id: newId,
+        },
+      };
+      try {
         await db.put(params).promise();
         console.log(`Successfully added item with id ${newId} to table`);
         setFormData({
@@ -56,44 +56,33 @@ const handleSubmit = async (event, tableName) => {
           id: "",
         });
         setSubmitted(false);
-    } catch (err) {
+      } catch (err) {
         console.log("Error adding item to table: ", err);
-    }
-  }
-  retrieveData();
-}
+      }
+    };
+    retrieveData();
+  };
 
-
-
-
-
-useEffect(() => {
-  if (!submitted) {
+  useEffect(() => {
+    if (!submitted) {
       return;
+    }
+  }, [submitted, formData]);
+
+  // Pega o dado atual de acordo com os dados do sistema
+  function getCurrentDate() {
+    var currentDate = new Date();
+    return currentDate.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
   }
-}, [submitted, formData]);
 
-
-
-
-
-// Get the current date according to the system's data
-function getCurrentDate() {
-  var currentDate = new Date();
-  return currentDate.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-}
-
-// Handle changes to the form inputs
-const handleChange = (event) => {
-  setFormData({ ...formData, [event.target.name]: event.target.value });
-};
-
-
- 
+  // Lida com as alterações de entrada do formulario
+  const handleChange = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+  };
 
   return (
     <div>
