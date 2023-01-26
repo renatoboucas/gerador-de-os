@@ -69,7 +69,7 @@ export const NewRegister = () => {
     }
   }, [submitted, formData]);
 
-  // Pega o dado atual de acordo com os dados do sistema
+  // Pega a data atual de acordo com os dados do sistema
   function getCurrentDate() {
     var currentDate = new Date();
     return currentDate.toLocaleDateString("en-US", {
