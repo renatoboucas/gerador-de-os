@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-import { putData } from "../../AwsFunctions";
+import React, { useState, useEffect, useCallback } from "react";
+import { db } from "../../AwsFunctions";
 
 export const NewRegister = () => {
-
-  //cria o state e os valores iniciais dos dados no banco
+  // Create the state and initial values for the data in the database
   const [formData, setFormData] = useState({
     nome: "",
     numero: "",
@@ -12,46 +11,94 @@ export const NewRegister = () => {
     imei: "",
     modelo: "",
     cor: "",
-    data: "",
+    data: getCurrentDate(),
     defeito: "",
     condicoes: "",
-  });
+    id: "",
+});
 
-  //pega a data atual de acordo com os dados do sistema
-  function getCurrentDate() {
-    var currentDate = new Date();
-    return currentDate.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    });
+const [submitted, setSubmitted] = useState(false);
+
+const handleSubmit = async (event, tableName) => {
+  event.preventDefault();
+  setSubmitted(true);
+  const retrieveData = async () => {
+    // Use the scan method to retrieve the last item in the table
+    const result = await db.scan({ TableName: tableName }).promise();
+    const maxId = result.Items.reduce((max, item) => {
+        return parseInt(item.id) > max ? parseInt(item.id) : max;
+    }, 0);
+    const newId = (maxId + 1).toString();
+    setFormData({ ...formData, id: newId });
+
+    // Use the put method to add the new item to the table
+    const params = {
+        TableName: tableName,
+        Item: {
+            ...formData,
+            id: newId
+        }
+    };
+    try {
+        await db.put(params).promise();
+        console.log(`Successfully added item with id ${newId} to table`);
+        setFormData({
+          nome: "",
+          numero: "",
+          email: "",
+          nomeaparelho: "",
+          imei: "",
+          modelo: "",
+          cor: "",
+          data: getCurrentDate(),
+          defeito: "",
+          condicoes: "",
+          id: "",
+        });
+        setSubmitted(false);
+    } catch (err) {
+        console.log("Error adding item to table: ", err);
+    }
+  }
+  retrieveData();
 }
 
 
-  const handleChange = (event) => {
-    setFormData({ ...formData, [event.target.name]: event.target.value });
-  };
 
-  const handleSubmit = (tableName, data) => {
-    putData(
-      "gerador-de-os-db",
-      formData.nome,
-      formData.numero,
-      formData.email,
-      formData.nomeaparelho,
-      formData.imei,
-      formData.modelo,
-      formData.cor,
-      getCurrentDate(),
-      formData.defeito,
-      formData.condicoes
-    );
-  };
+
+
+useEffect(() => {
+  if (!submitted) {
+      return;
+  }
+}, [submitted, formData]);
+
+
+
+
+
+// Get the current date according to the system's data
+function getCurrentDate() {
+  var currentDate = new Date();
+  return currentDate.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
+// Handle changes to the form inputs
+const handleChange = (event) => {
+  setFormData({ ...formData, [event.target.name]: event.target.value });
+};
+
+
+ 
 
   return (
     <div>
       <div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={(e) => handleSubmit(e, "gerador-de-os-db")}>
           <h1>Cadastro Cliente</h1>
           <label htmlFor="nome">Nome Completo:</label>
           <input
@@ -118,7 +165,7 @@ export const NewRegister = () => {
             value={formData.cor}
             onChange={handleChange}
           />
-      
+
           <h1>Defeito</h1>
           <input
             type="text"
@@ -139,7 +186,7 @@ export const NewRegister = () => {
           />
           <input
             type="button"
-            onClick={() => handleSubmit()}
+            onClick={(e) => handleSubmit(e, "gerador-de-os-db")}
             value="Cadastrar"
           />
         </form>
